@@ -1,19 +1,46 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect, useRef} from 'react'
 
-function SortPopup() {
 
-    const [visiblePopup, setVisiblePopup] = useState(false);
-    console.log(visiblePopup)
+function SortPopup({items}) {
+
+    const [visiblePopup, setVisiblePopup] = useState(null);
+    const [activeItem, setActiveItem] = useState(0);
+    const activelabel = items[activeItem]; //назаначется активный элемент из массива под индексом activeItem
+
+    console.log(activelabel)
+
+    const onSelectItem = (index) => {
+      setActiveItem(index)
+      setVisiblePopup(false)
+    }
+
+    const sortRef = useRef(); // этот хук нужен для того, чтобы хранить всегда актуальные значения
+    console.log(sortRef.current)
 
     const toggleVisiblePopup = () => {
         setVisiblePopup(!visiblePopup)
     }
-    // const[activeItemPopup, setActiveItemPopup] = useState(true)
+
+    const handleOutsideClicked = (e) => { // 
+      if(!e.path.includes(sortRef.current)) {
+        setVisiblePopup(false)
+      };
+    };
+
+    useEffect(() => { // данный хук отслеживает состояние компонента, и при каждом изменении состояния компонента выполняет функцию, которую мы записываем в хук.
+      document.body.addEventListener('click', handleOutsideClicked);
+      console.log(sortRef.current)
+    }, []);
+
+    console.log(items)
 
     return (
-        <div className="sort">
+        <div 
+          ref = {sortRef}
+          className="sort">
               <div className="sort__label">
-                <svg
+                <svg 
+                  className = {visiblePopup ? 'rotated' : ''}
                   width="10"
                   height="6"
                   viewBox="0 0 10 6"
@@ -26,14 +53,21 @@ function SortPopup() {
                   />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={toggleVisiblePopup}>популярности</span>
+                <span onClick={toggleVisiblePopup}>{activelabel}</span>
               </div> 
               {/* для того, чтобы отобразить элемент верстки или скрыть его, мы ставим перед вёрсткой переменную, которая в зависимости от логики принимает true или false.Далее используем логический элемент И(&&) И если переменная true, то вёрстка отображается, если false то нет*/}
-              {visiblePopup && (<div className="sort__popup"> 
+              {visiblePopup && (
+              <div className="sort__popup"> 
                 <ul>
-                  <li className="active">популярности</li>
-                  <li>цене</li>
-                  <li>алфавиту</li>
+                  {items && 
+                    items.map((item, index) => (
+                    <li
+                      className = {activeItem === index ? 'active' : ''}// тут передаётся в класс li 'active' в зависимости от того, на какой мы кликнули li. Происхолит проверка - если состояние activeItem равен индексу элемента, на который мы нажали, тогда сlassName становится 'active', а значение activeItem получает из метода onSelectItem, где при нажатии на элемент мы получаем его индекс, и соответственно меняем стэйт
+                      onClick={() => onSelectItem(index)} //вызываем функцию, которая получает индекс элемента и передаёт его в onSelectItem
+                      key={`${item}_${index}`}>
+                      {item}
+                    </li>))    
+                  }                 
                 </ul>
               </div>)}
             </div>

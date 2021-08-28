@@ -40,16 +40,21 @@ import React, {useState} from 'react'
 function Categories({items}) {
 
     const [activeItem, setActiveItem] = useState(null);
+    
 
-    const onSelectItem = (index) => {
+    const onSelectItem = (index) => { //функция для получения index-a, и передачи значения в activeItem
       setActiveItem(index);
-    }
+    };
+
+
+    
+
 
     return (
         <div>
             <div className="categories">
               <ul>
-                <li className = {activeItem === null ? 'active' : ''} // проверяем на значение null index-a кноаки 'все', и назначаем ей класс active.
+                <li className = {activeItem === null ? 'active' : ''} // проверяем на значение null index-a кнопки 'все', и назначаем ей класс active.
                     onClick={() => onSelectItem(null)}> 
                       Все
                 </li>

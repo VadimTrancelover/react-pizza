@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import classNames from 'classnames'; // модуль classNames создает функцию. В которую передается класс кнопки, а так же условие, при котором будет задаваться дополнительный класс.
 
 function Button ({onClick, className, outline, children}) {
     
@@ -8,7 +8,7 @@ function Button ({onClick, className, outline, children}) {
         return ( 
         <button 
             onClick={onClick} // передаётся в пропсы свойство из родительского компонента
-            className={classNames('button', className, {'button--outline' : outline})}>
+            className={classNames('button', className, {'button--outline' : outline})}> 
                  {children}
         </button>
         )       
