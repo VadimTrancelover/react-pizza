@@ -7,7 +7,6 @@ function SortPopup({items}) {
     const [activeItem, setActiveItem] = useState(0);
     const activelabel = items[activeItem]; //назаначется активный элемент из массива под индексом activeItem
 
-    console.log(activelabel)
 
     const onSelectItem = (index) => {
       setActiveItem(index)
@@ -15,7 +14,6 @@ function SortPopup({items}) {
     }
 
     const sortRef = useRef(); // этот хук нужен для того, чтобы хранить всегда актуальные значения
-    console.log(sortRef.current)
 
     const toggleVisiblePopup = () => {
         setVisiblePopup(!visiblePopup)
@@ -29,10 +27,8 @@ function SortPopup({items}) {
 
     useEffect(() => { // данный хук отслеживает состояние компонента, и при каждом изменении состояния компонента выполняет функцию, которую мы записываем в хук.
       document.body.addEventListener('click', handleOutsideClicked);
-      console.log(sortRef.current)
     }, []);
 
-    console.log(items)
 
     return (
         <div 
