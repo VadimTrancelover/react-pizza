@@ -1,28 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 function PizzaBlock({ name, imageUrl, price, types, sizes }) {
-
-    console.log(name,sizes)
   const typesNames = ["тонкое", "традиционное"];
   const sizesNames = [26, 30, 40];
-  const [activeType, setActiveType] = React.useState(types[0]);
-  const [activeSize, setActiveSize] = React.useState(sizes[0]);
-
+  const [activeType, setActiveType] = useState(types[0]);
+  const [activeSize, setActiveSize] = useState(sizes[0]);
 
   const onActiveType = (index) => {
-      setActiveType(index)
-  }
+    setActiveType(index);
+  };
 
   const onActiveSize = (index) => {
-      setActiveSize(index)
-  } 
-
-  useEffect(() => {
-    console.log(activeType)
-  }) 
-
+    setActiveSize(index);
+  };
 
   return (
     <div className="pizza-block">
@@ -30,32 +22,32 @@ function PizzaBlock({ name, imageUrl, price, types, sizes }) {
       <h4 className="pizza-block__title">{name}</h4>
       <div className="pizza-block__selector">
         <ul>
-            {
-            typesNames.map((type, index) =>
-                 <li key={`${index}`}
-                    onClick={() => onActiveType(index)}
-                    className={classNames({
-                        'active': activeType === index, // проверка с помощью библиотеки classNames - если activeType равен индексу, тогда назначается класс activeType
-                        'disable': !types.includes(index), // сдесь проверка, если же в пришедшие из пропсов типы не содержат опредённый индекс, тогда назначается класс 'disabled'
-                    })}>
-                        {type}
-                </li>
-                )
-            }
+          {typesNames.map((type, index) => (
+            <li
+              key={`${index}`}
+              onClick={() => onActiveType(index)}
+              className={classNames({
+                active: activeType === index, // проверка с помощью библиотеки classNames - если activeType равен индексу, тогда назначается класс activeType
+                disable: !types.includes(index), // сдесь проверка, если же в пришедшие из пропсов типы не содержат опредённый индекс, тогда назначается класс 'disabled'
+              })}
+            >
+              {type}
+            </li>
+          ))}
         </ul>
         <ul>
-        {
-            sizesNames.map((size, index) =>
-                 <li key={`${index}`}
-                    onClick={() => onActiveSize(index)}
-                    className={classNames({
-                        'active': activeSize === index, // проверка с помощью библиотеки classNames - если activeType равен индексу, тогда назначается класс activeType
-                        'disable': !sizes.includes(size), // сдесь проверка, если же в пришедшие из пропсов типы не содержат опредённый размер, тогда назначается класс 'disabled'
-                    })}>
-                        {size} см.
-                </li>
-                )
-            }
+          {sizesNames.map((size, index) => (
+            <li
+              key={`${index}`}
+              onClick={() => onActiveSize(index)}
+              className={classNames({
+                active: activeSize === index, // проверка с помощью библиотеки classNames - если activeType равен индексу, тогда назначается класс activeType
+                disable: !sizes.includes(size), // сдесь проверка, если же в пришедшие из пропсов типы не содержат опредённый размер, тогда назначается класс 'disabled'
+              })}
+            >
+              {size} см.
+            </li>
+          ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">
@@ -81,19 +73,21 @@ function PizzaBlock({ name, imageUrl, price, types, sizes }) {
   );
 }
 
-PizzaBlock.propTypes = { // при помощи PropTypes мы осуществляем проверку переменных на их тип, чтобы при указании неверного типа переменной нам написало об этом в ошибке. Указание типизации
-    name: PropTypes.string.isRequired,
-    imageUrl: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    types: PropTypes.arrayOf(PropTypes.number).isRequired,
-    sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
-}
+PizzaBlock.propTypes = {
+  // при помощи PropTypes мы осуществляем проверку переменных на их тип, чтобы при указании неверного типа переменной нам написало об этом в ошибке. Указание типизации
+  name: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  types: PropTypes.arrayOf(PropTypes.number).isRequired,
+  sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
+};
 
-PizzaBlock.defaultProps = {  //при помощи defaultProps мы указываем значение переменных по умолчанию в наших компонентах, чтобы в случае, если мы не передали какую либо из них, нащ компонент не сломался, и не выпал в ошибку, а подставил значение по умолчанию
-    name: '---',
-    price: 0, 
-    types: [],
-    sizes: [],
-}
+PizzaBlock.defaultProps = {
+  //при помощи defaultProps мы указываем значение переменных по умолчанию в наших компонентах, чтобы в случае, если мы не передали какую либо из них, нащ компонент не сломался, и не выпал в ошибку, а подставил значение по умолчанию
+  name: "---",
+  price: 0,
+  types: [],
+  sizes: [],
+};
 
 export default PizzaBlock;

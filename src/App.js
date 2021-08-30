@@ -6,6 +6,8 @@ import {Home, Cart} from "./pages/index";
 
 function App() {
 
+
+
   const [pizzas, setPizzas] = useState([]);
 
   useEffect(() => {
@@ -15,8 +17,6 @@ function App() {
           setPizzas(json);
         });
   }, []);
-
-  console.log(pizzas)
   
 // для того, чтобы в роуте прокинуть пропсы в нужный нам компонент, нужно писать вместо component -> render={() => <Home/>}
   return (
