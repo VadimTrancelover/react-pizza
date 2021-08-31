@@ -6,6 +6,7 @@ import {Home, Cart} from "./pages/index";
 
 function App() {
 
+    console.log('Whats happenes') 
 
 
   const [pizzas, setPizzas] = useState([]);

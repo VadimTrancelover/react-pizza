@@ -5,15 +5,15 @@ function SortPopup({items}) {
 
     const [visiblePopup, setVisiblePopup] = useState(null);
     const [activeItem, setActiveItem] = useState(0);
-    const activelabel = items[activeItem]; //назаначется активный элемент из массива под индексом activeItem
+    const activelabel = items[activeItem].name; //назаначется активный элемент из массива под индексом activeItem
+    const sortRef = useRef(); // этот хук нужен для того, чтобы хранить всегда актуальные значения
 
+  console.log(activelabel);
 
     const onSelectItem = (index) => {
       setActiveItem(index)
       setVisiblePopup(false)
     }
-
-    const sortRef = useRef(); // этот хук нужен для того, чтобы хранить всегда актуальные значения
 
     const toggleVisiblePopup = () => {
         setVisiblePopup(!visiblePopup)
@@ -56,12 +56,12 @@ function SortPopup({items}) {
               <div className="sort__popup"> 
                 <ul>
                   {items && 
-                    items.map((item, index) => (
+                    items.map((obj, index) => (
                     <li
                       className = {activeItem === index ? 'active' : ''}// тут передаётся в класс li 'active' в зависимости от того, на какой мы кликнули li. Происхолит проверка - если состояние activeItem равен индексу элемента, на который мы нажали, тогда сlassName становится 'active', а значение activeItem получает из метода onSelectItem, где при нажатии на элемент мы получаем его индекс, и соответственно меняем стэйт
                       onClick={() => onSelectItem(index)} //вызываем функцию, которая получает индекс элемента и передаёт его в onSelectItem
-                      key={`${item}_${index}`}>
-                      {item}
+                      key={`${obj.type}_${index}`}>
+                      {obj.name}
                     </li>))    
                   }                 
                 </ul>
