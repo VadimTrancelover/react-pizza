@@ -8,7 +8,5 @@ const rootReducer = combineReducers({
     pizzas: pizzasReducer,
 });
 
-console.log(rootReducer)
-
 
 export default rootReducer;
