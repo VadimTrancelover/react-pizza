@@ -37,18 +37,15 @@ import React, {useState} from 'react'
 // }
 
 
-function Categories({items}) {
+function Categories({items, onClickItem}) {
 
     const [activeItem, setActiveItem] = useState(null);
     
 
     const onSelectItem = (index) => { //функция для получения index-a, и передачи значения в activeItem
       setActiveItem(index);
+      onClickItem(index);
     };
-
-
-    
-
 
     return (
         <div>
