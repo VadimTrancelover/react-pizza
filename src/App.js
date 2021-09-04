@@ -1,6 +1,5 @@
-import React, {useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { setPizzas } from './redux/actions/pizzas' ;
 import { Route } from "react-router-dom";
 import {Header} from './components';
 import {Home, Cart} from "./pages/index";
@@ -10,15 +9,7 @@ import {Home, Cart} from "./pages/index";
 function App() {
 
   const dispatch = useDispatch();
- 
-
-  useEffect(() => {
-    fetch('http://localhost:3004/pizzas')
-    .then((res) => res.json())
-    .then((json) => {
-      dispatch(setPizzas(json))
-    });
-  },[]);
+  
 
   return(
     <div className="wrapper">

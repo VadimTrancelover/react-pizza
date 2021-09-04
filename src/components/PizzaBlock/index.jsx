@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import LoadingBlock from "./LoadingBlock";
 
-function PizzaBlock({ name, imageUrl, price, types, sizes }) {
+
+
+function PizzaBlock({ name, imageUrl, price, types, sizes}) {
+  
   const typesNames = ["тонкое", "традиционное"];
   const sizesNames = [26, 30, 40];
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
+
 
   const onActiveType = (index) => {
     setActiveType(index);
@@ -15,6 +20,7 @@ function PizzaBlock({ name, imageUrl, price, types, sizes }) {
   const onActiveSize = (index) => {
     setActiveSize(index);
   };
+
 
   return (
     <div className="pizza-block">
