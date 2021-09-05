@@ -32,6 +32,11 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
   }
+  &__two_items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
 
   &__top {
     display: flex;

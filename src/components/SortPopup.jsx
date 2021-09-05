@@ -1,15 +1,17 @@
-import React,{useState, useEffect, useRef} from 'react'
+import React,{useState, useEffect, useRef} from 'react';
+import PropTypes from "prop-types";
 
 
-const SortPopup = React.memo(function SortPopup({items}) { //useMemo следит за тем, меняются ли ссылка в компоненте, если же она не меняется, тогда ререндер компонента не происходит
 
-  const [visiblePopup, setVisiblePopup] = useState(null);
-  const [activeItem, setActiveItem] = useState(0);
-  const activelabel = items[activeItem].name; //назаначется активный элемент из массива под индексом activeItem
+const SortPopup = React.memo(function SortPopup({items, onClickSortType, activeSortType}) { //useMemo следит за тем, меняются ли ссылка в компоненте, если же она не меняется, тогда ререндер компонента не происходит
+
+  const [visiblePopup, setVisiblePopup] = useState(false);
+  const activelabel = items.find((obj) =>  obj.type === activeSortType).name;
+  console.log(activeSortType) ;
   const sortRef = useRef(); // этот хук нужен для того, чтобы хранить всегда актуальные значения
 
   const onSelectItem = (index) => {
-    setActiveItem(index)
+    onClickSortType(index)
     setVisiblePopup(false)
   }
 
@@ -56,8 +58,8 @@ const SortPopup = React.memo(function SortPopup({items}) { //useMemo следи�
                 {items && 
                   items.map((obj, index) => (
                   <li
-                    className = {activeItem === index ? 'active' : ''}// тут передаётся в класс li 'active' в зависимости от того, на какой мы кликнули li. Происхолит проверка - если состояние activeItem равен индексу элемента, на который мы нажали, тогда сlassName становится 'active', а значение activeItem получает из метода onSelectItem, где при нажатии на элемент мы получаем его индекс, и соответственно меняем стэйт
-                    onClick={() => onSelectItem(index)} //вызываем функцию, которая получает индекс элемента и передаёт его в onSelectItem
+                    className = {activeSortType === obj.type ? 'active' : ''}// тут передаётся в класс li 'active' в зависимости от того, на какой мы кликнули li. Происхолит проверка - если состояние activeItem равен индексу элемента, на который мы нажали, тогда сlassName становится 'active', а значение activeItem получает из метода onSelectItem, где при нажатии на элемент мы получаем его индекс, и соответственно меняем стэйт
+                    onClick={() => onSelectItem(obj)} //вызываем функцию, которая получает индекс элемента и передаёт его в onSelectItem
                     key={`${obj.type}_${index}`}>
                     {obj.name}
                   </li>))    
@@ -66,6 +68,17 @@ const SortPopup = React.memo(function SortPopup({items}) { //useMemo следи�
             </div>)}
           </div>
   )
-})
+});
+
+SortPopup.propTypes = {
+  // при помощи PropTypes мы осуществляем проверку переменных на их тип, чтобы при указании неверного типа переменной нам написало об этом в ошибке. Указание типизации
+  activeSortType: PropTypes.string.isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onClickSortType: PropTypes.func.isRequired
+};
+
+SortPopup.defaultProps = {items: [],
+
+};
 
 export default SortPopup;

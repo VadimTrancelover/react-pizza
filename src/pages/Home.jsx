@@ -1,14 +1,15 @@
 import React from "react";
 import { fetchPizzas } from '../redux/actions/pizzas' ;
 import {Categories, SortPopup, PizzaBlock, LoadingPizzaBlock} from '../components';
-import { setCategory } from "../redux/actions/filters";
+import { setCategory, setSortBy} from "../redux/actions/filters";
 import { useDispatch, useSelector } from "react-redux";
+import  classNames  from "classnames";
 
 const categoryNames = ["Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
 const sortItems = [
-  {name:"популярности", type: "popular"},
-  {name:"цене", type: "price"},
-  {name: "алфавиту",type: "alphabet"}
+  {name:"популярности", type: "popular", order: "desc"},
+  {name:"цене", type: "price", order: "desc"},
+  {name: "алфавиту",type: "name", order: "asc"}
 ];
 
   function Home() {
@@ -24,35 +25,43 @@ const sortItems = [
       isLoaded: pizzas.isLoaded,
     }
   }); //
-  const {category, sortBy} = useSelector(({filters}) => { //делает тоже самое, что и mapStateToProps
-    return {
-      category: filters,
-      sortBy: filters
-    }
-  }); //
+  const {category, sortBy} = useSelector(({filters}) =>  //делает тоже самое, что и mapStateToProps
+      filters); //
 
-  React.useEffect(() => {dispatch(fetchPizzas());
-  },[category]);
-  
-  console.log(category, sortBy)
+  React.useEffect(() => {dispatch(fetchPizzas(sortBy, category));
+  },[category, sortBy]);
 
   const onSelectCategory = React.useCallback((index) => {
     dispatch(setCategory(index))
   }, []);
 
+  const onSelectSortType = React.useCallback((type) => {
+    dispatch(setSortBy(type))
+  }, []);
+
+  console.log(items)
+
   return (
     <div className="container">
       <div className="content__top">
         <Categories
-          onClickItem={onSelectCategory}
+          ActiveCategory = {category}
+          onClickCategory={onSelectCategory}
           items={categoryNames}
         />
-        <SortPopup items={sortItems} />
+        <SortPopup 
+        onClickSortType = {onSelectSortType}
+        activeSortType = {sortBy.type}
+        items={sortItems} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
+      <div className={classNames({
+        content__items: items,
+        content__two_items: items.length === 2})}>
         {
-          isLoaded ? items.map((obj) => <PizzaBlock key={`${obj.id}`} isLoading={true} {...obj}  />) : Array(12).fill(0).map(((_, index) => <LoadingPizzaBlock key={index}/>))
+          isLoaded ? items.map((obj) => <PizzaBlock 
+          
+           key={`${obj.id}`} isLoading={true} {...obj}  />) : Array(10).fill(0).map(((_, index) => <LoadingPizzaBlock key={index}/>))
         }
       </div>
     </div>
