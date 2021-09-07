@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import LoadingBlock from "./LoadingBlock";
+import Button from "../Button";
 
 
 
-function PizzaBlock({ name, imageUrl, price, types, sizes}) {
+function PizzaBlock({ id, name, imageUrl, price, types, sizes, onClickAddPizza, addedCount}) {
   
   const typesNames = ["тонкое", "традиционное"];
   const sizesNames = [26, 30, 40];
   const [activeType, setActiveType] = useState(types[0]);
-  const [activeSize, setActiveSize] = useState(sizes[0]);
+  const [activeSize, setActiveSize] = useState(0);
 
 
   const onActiveType = (index) => {
@@ -20,6 +21,18 @@ function PizzaBlock({ name, imageUrl, price, types, sizes}) {
   const onActiveSize = (index) => {
     setActiveSize(index);
   };
+
+  const onAddPizza = () => {
+    const obj = {
+      id,
+      name,
+      imageUrl,
+      price,
+      size: sizesNames[activeSize],
+      type: typesNames[activeType]
+    }
+    onClickAddPizza(obj)
+  }
 
 
   return (
@@ -48,7 +61,7 @@ function PizzaBlock({ name, imageUrl, price, types, sizes}) {
               onClick={() => onActiveSize(index)}
               className={classNames({
                 active: activeSize === index, // проверка с помощью библиотеки classNames - если activeType равен индексу, тогда назначается класс activeType
-                disable: !sizes.includes(size), // сдесь проверка, если же в пришедшие из пропсов типы не содержат опредённый размер, тогда назначается класс 'disabled'
+                disable: !sizes.includes(size), // здесь проверка, если же в пришедшие из пропсов типы не содержат опредённый размер, тогда назначается класс 'disabled'
               })}
             >
               {size} см.
@@ -58,7 +71,9 @@ function PizzaBlock({ name, imageUrl, price, types, sizes}) {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div className="button button--outline button--add">
+        <Button 
+        onClick={onAddPizza}
+        className="button--add" outline>
           <svg
             width="12"
             height="12"
@@ -72,8 +87,8 @@ function PizzaBlock({ name, imageUrl, price, types, sizes}) {
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
-        </div>
+          {addedCount && <i>{addedCount}</i>}
+        </Button>
       </div>
     </div>
   );
@@ -86,6 +101,7 @@ PizzaBlock.propTypes = {
   price: PropTypes.number.isRequired,
   types: PropTypes.arrayOf(PropTypes.number).isRequired,
   sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
+  addedCount: PropTypes.number,
 };
 
 PizzaBlock.defaultProps = {
