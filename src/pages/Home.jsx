@@ -65,8 +65,6 @@ function Home() {
     })
   }
 
-  console.log(items);
-
   return (
     <div className="container">
       <div className="content__top">
@@ -91,7 +89,7 @@ function Home() {
         {isLoaded
           ? items.map((obj) => (
               <PizzaBlock 
-              addedCount = {cartItems[obj.id] && cartItems[obj.id].length}
+              addedCount = {cartItems[obj.id] && cartItems[obj.id].items.length}
               onClickAddPizza={handleAddPizzaToCart}
               key={`${obj.id}`} 
               isLoading={true} {...obj} />
