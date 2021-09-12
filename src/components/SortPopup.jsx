@@ -7,7 +7,6 @@ const SortPopup = React.memo(function SortPopup({items, onClickSortType, activeS
 
   const [visiblePopup, setVisiblePopup] = useState(false);
   const activelabel = items.find((obj) =>  obj.type === activeSortType).name;
-  console.log(activeSortType) ;
   const sortRef = useRef(); // этот хук нужен для того, чтобы хранить всегда актуальные значения
 
   const onSelectItem = (index) => {

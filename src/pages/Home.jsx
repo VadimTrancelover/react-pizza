@@ -7,6 +7,7 @@ import {
   LoadingPizzaBlock,
 } from "../components";
 import { addPizzaToCart } from "../redux/actions/cart";
+
 import { setCategory, setSortBy } from "../redux/actions/filters";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
